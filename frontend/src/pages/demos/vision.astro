@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ImageAnalyzer from '../../components/ImageAnalyzer.astro';
+---
+
+<Layout title="Sinan.AI - Vision Demo">
+  <div class="max-w-4xl mx-auto px-4 py-16">
+    
+    <div class="text-center mb-12 space-y-4 animate-fade-in">
+      <div class="inline-block px-3 py-1 bg-purple-500/10 text-purple-400 rounded-full text-xs font-bold border border-purple-500/20 mb-4 tracking-widest uppercase">
+        AI Engineering Showcase
+      </div>
+      <h1 class="text-4xl md:text-5xl font-bold text-white">
+        Multimodal <span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">Vision Analysis</span>
+      </h1>
+      <p class="text-slate-400 text-lg max-w-xl mx-auto leading-relaxed">
+        Lade einen Screenshot einer Website oder App hoch. 
+        <br/>
+        Meine KI-Pipeline analysiert Design, UX und Accessibility in Echtzeit.
+      </p>
+    </div>
+
+    <div class="animate-fade-in-up delay-100">
+        <ImageAnalyzer />
+    </div>
+
+    <div class="mt-20 pt-10 border-t border-slate-800 text-center animate-fade-in delay-200">
+        <p class="text-slate-500 text-sm">
+            Tech Stack: FastAPI (Python) • Gemini 1.5 Flash (Vision) • Astro (Client)
+        </p>
+    </div>
+
+  </div>
+</Layout>

@@ -1,0 +1,217 @@
+<div class="max-w-3xl mx-auto">
+    <div 
+      id="drop-zone"
+      class="border-2 border-dashed border-slate-700 rounded-2xl p-12 text-center hover:border-blue-500/50 hover:bg-slate-800/50 transition-all cursor-pointer group bg-slate-900/30"
+    >
+      <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp" />
+      
+      <div class="flex flex-col items-center gap-4">
+        <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-blue-900/20 border border-slate-700">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-400">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+          </svg>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">Screenshot hochladen</h3>
+          <p class="text-slate-400 mt-2 text-sm">Drag & Drop oder hier klicken (PNG, JPG)</p>
+        </div>
+      </div>
+    </div>
+  
+    <div id="preview-container" class="hidden mt-8 text-center animate-fade-in">
+      <div class="relative inline-block group">
+          <img id="image-preview" class="max-h-[400px] mx-auto rounded-lg border border-slate-700 shadow-2xl" />
+          <button id="remove-btn" class="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 shadow-lg hover:bg-red-600 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+          </button>
+      </div>
+      
+      <div class="mt-8">
+          <button id="analyze-btn" class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20 flex items-center gap-2 mx-auto">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+          </svg>
+          AI Analyse starten
+          </button>
+      </div>
+    </div>
+  
+    <div id="loading" class="hidden mt-12 text-center">
+      <div class="inline-block animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-400 mb-4 shadow-[0_0_15px_rgba(52,211,153,0.5)]"></div>
+      <p class="text-emerald-400 font-mono text-sm animate-pulse tracking-widest">VISION ENGINE PROCESSING...</p>
+    </div>
+  
+    <div id="result" class="hidden mt-12 bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-2xl animate-fade-in-up">
+      <div class="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+          <div class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 text-emerald-400">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+          </div>
+          <h3 class="text-lg font-bold text-white">UX Vision Analyse</h3>
+      </div>
+      
+      <div id="markdown-content" class="prose prose-invert max-w-none text-slate-300">
+        </div>
+    </div>
+  </div>
+  
+  <script>
+    import { marked } from 'marked';
+  
+    // UI Referenzen
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const previewContainer = document.getElementById('preview-container');
+    const imagePreview = document.getElementById('image-preview');
+    const analyzeBtn = document.getElementById('analyze-btn');
+    const removeBtn = document.getElementById('remove-btn');
+    const loading = document.getElementById('loading');
+    const result = document.getElementById('result');
+    const markdownContent = document.getElementById('markdown-content');
+  
+    // WICHTIG: Die URL zu deinem Backend (cloudworkstations)
+    const API_URL = "https://8000-firebase-realizetogether-ai-1768386888249.cluster-6vyo4gb53jczovun3dxslzjahs.cloudworkstations.dev/api/vision";
+  
+    let currentFile = null;
+  
+    // --- Event Listeners ---
+  
+    // Klick auf Box öffnet Dateiauswahl
+    dropZone?.addEventListener('click', () => fileInput?.click());
+    
+    // Drag & Drop Effekte
+    dropZone?.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropZone.classList.add('border-blue-500', 'bg-slate-800/80');
+    });
+  
+    dropZone?.addEventListener('dragleave', () => {
+      dropZone.classList.remove('border-blue-500', 'bg-slate-800/80');
+    });
+  
+    dropZone?.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('border-blue-500', 'bg-slate-800/80');
+      // @ts-ignore
+      if (e.dataTransfer?.files.length) handleFile(e.dataTransfer.files[0]);
+    });
+  
+    // Datei über Input ausgewählt
+    fileInput?.addEventListener('change', (e) => {
+      // @ts-ignore
+      if (e.target.files.length) handleFile(e.target.files[0]);
+    });
+  
+    // Bild entfernen
+    removeBtn?.addEventListener('click', () => {
+      currentFile = null;
+      // @ts-ignore
+      fileInput.value = '';
+      previewContainer?.classList.add('hidden');
+      dropZone?.classList.remove('hidden');
+      result?.classList.add('hidden');
+    });
+  
+    // Analyse starten
+    analyzeBtn?.addEventListener('click', runAnalysis);
+  
+  
+    // --- Logic ---
+  
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+          alert('Bitte lade nur Bilddateien hoch (JPG, PNG).');
+          return;
+      }
+      currentFile = file;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // @ts-ignore
+        imagePreview.src = e.target.result;
+        dropZone?.classList.add('hidden');
+        previewContainer?.classList.remove('hidden');
+        result?.classList.add('hidden'); // Altes Ergebnis ausblenden
+      };
+      reader.readAsDataURL(file);
+    }
+  
+    async function runAnalysis() {
+      if (!currentFile) return;
+  
+      // UI Ladezustand
+      analyzeBtn?.classList.add('hidden');
+      loading?.classList.remove('hidden');
+      result?.classList.add('hidden');
+  
+      const formData = new FormData();
+      formData.append('file', currentFile);
+  
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          credentials: 'include',
+          body: formData
+        });
+  
+        const data = await res.json();
+        
+        // UI Fertig
+        loading?.classList.add('hidden');
+        result?.classList.remove('hidden');
+        analyzeBtn?.classList.remove('hidden');
+        analyzeBtn.innerText = "Anderes Bild testen";
+  
+        // Markdown rendern
+        // @ts-ignore
+        markdownContent.innerHTML = marked.parse(data.analysis || "⚠️ Keine Antwort erhalten.");
+  
+      } catch (e) {
+        alert('Fehler bei der Verbindung zum Server: ' + e);
+        loading?.classList.add('hidden');
+        analyzeBtn?.classList.remove('hidden');
+      }
+    }
+  </script>
+  
+  <style is:global>
+      /* Styling für den Markdown Output der Vision Analyse */
+      #markdown-content h1, #markdown-content h2, #markdown-content h3 {
+          color: white;
+          font-weight: 700;
+          margin-top: 1.5em;
+          margin-bottom: 0.8em;
+      }
+      #markdown-content strong {
+          color: #34d399; /* emerald-400 */
+      }
+      #markdown-content ul {
+          list-style-type: disc;
+          padding-left: 1.5em;
+          margin-bottom: 1em;
+      }
+      #markdown-content li {
+          margin-bottom: 0.5em;
+      }
+      #markdown-content p {
+          margin-bottom: 1em;
+          line-height: 1.7;
+      }
+      /* Code Blöcke im Ergebnis */
+      #markdown-content pre {
+          background: #1e293b;
+          padding: 1rem;
+          border-radius: 0.5rem;
+          overflow-x: auto;
+          border: 1px solid #334155;
+          margin-top: 1rem;
+          margin-bottom: 1rem;
+      }
+      #markdown-content code {
+          font-family: monospace;
+          color: #93c5fd; /* blue-300 */
+      }
+  </style>

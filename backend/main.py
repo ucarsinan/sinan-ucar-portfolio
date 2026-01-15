@@ -1,12 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from langchain_google_genai import ChatGoogleGenerativeAI
-# WICHTIG: Dieser Import hat gefehlt
 from langchain_community.document_loaders import PyPDFLoader 
 from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import HumanMessage
 from dotenv import load_dotenv
 import os
+import base64
 
 # 1. Setup
 load_dotenv()
@@ -21,18 +22,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# 3. Globale Variable für das "Gehirn"
+# 3. Globale Variable für das "Gehirn" (Lebenslauf)
 CV_CONTEXT = ""
 
 def load_cv():
     """Liest das PDF aus dem data-Ordner ein."""
     global CV_CONTEXT
-    
-    # NEU: Der Pfad zeigt jetzt in den Unterordner 'data'
     file_path = os.path.join("data", "cv.pdf")
 
     try:
-        # Prüfen ob Datei existiert
         if not os.path.exists(file_path):
             print(f"⚠️ WARNUNG: Datei unter '{file_path}' nicht gefunden!")
             CV_CONTEXT = "Kein Lebenslauf hinterlegt."
@@ -41,8 +39,6 @@ def load_cv():
         print(f"📂 Lade Lebenslauf von: {file_path} ...")
         loader = PyPDFLoader(file_path)
         pages = loader.load()
-        
-        # Alle Seiten zusammenfügen
         CV_CONTEXT = "\n".join([p.page_content for p in pages])
         print(f"✅ Lebenslauf geladen! ({len(CV_CONTEXT)} Zeichen)")
         
@@ -56,14 +52,23 @@ load_cv()
 # 4. AI Setup
 api_key = os.getenv("GOOGLE_API_KEY")
 
-llm = ChatGoogleGenerativeAI(
+# Modell für den Chat (Schnell & Effizient)
+chat_llm = ChatGoogleGenerativeAI(
     model="gemini-flash-lite-latest",
     google_api_key=api_key,
     max_retries=0,       
     request_timeout=10.0
 )
 
-# 5. Der Prompt (Hier geben wir der AI die Persönlichkeit)
+# NEU: Modell für Vision (Muss Multimodalität unterstützen, daher Flash Standard)
+vision_llm = ChatGoogleGenerativeAI(
+    model="gemini-flash-latest",
+    google_api_key=api_key,
+    max_retries=0,
+    request_timeout=20.0 
+)
+
+# 5. Der Prompt für den Chat
 prompt_template = ChatPromptTemplate.from_template("""
 Du bist der professionelle AI-Assistent von Sinan. 
 Nutze den folgenden Lebenslauf, um Fragen zu beantworten:
@@ -83,12 +88,12 @@ FRAGE DES USERS:
 class ChatRequest(BaseModel):
     message: str
 
-# 6. Der Endpunkt
+# 6. Endpunkt: CHAT
 @app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
     print(f"📩 Frage: {request.message}")
     
-    chain = prompt_template | llm
+    chain = prompt_template | chat_llm
     
     try:
         response = chain.invoke({
@@ -98,12 +103,48 @@ async def chat_endpoint(request: ChatRequest):
         return {"reply": response.content}
         
     except Exception as e:
-        error_str = str(e).lower() # Alles in Kleinbuchstaben umwandeln für leichteren Vergleich
+        error_str = str(e).lower()
         print(f"❌ Fehler: {error_str}") 
         
-        # NEU: Wir prüfen auf 429 (Rate Limit) UND auf Timeout/Deadline Fehler
         if "429" in error_str or "resource_exhausted" in error_str or "timeout" in error_str or "deadline" in error_str:
             return {"reply": "⚠️ **Kurze Pause!**\nIch habe gerade zu viele Anfragen erhalten oder Google antwortet zu langsam. Bitte warte 30 Sekunden. ⏳"}
         
-        # Sonstige Fehler
         return {"reply": f"Ein technisches Problem ist aufgetreten: {str(e)}"}
+
+# 7. Endpunkt: VISION (Bilderanalyse)
+@app.post("/api/vision")
+async def vision_endpoint(file: UploadFile = File(...)):
+    print(f"🖼️ Bild empfangen: {file.filename}")
+    
+    try:
+        # 1. Bild einlesen und kodieren
+        contents = await file.read()
+        image_b64 = base64.b64encode(contents).decode("utf-8")
+        
+        # 2. Multimodaler Prompt
+        message = HumanMessage(
+            content=[
+                {"type": "text", "text": """
+Du bist ein Senior UX/UI Designer und Frontend-Experte. Analysiere diesen Screenshot. 
+
+Erstelle eine Analyse im Markdown-Format:
+1. **Erster Eindruck:** Was fällt sofort auf? (Positiv/Negativ)
+2. **UX & Usability:** Sind Buttons erkennbar? Ist die Navigation logisch?
+3. **Design & Ästhetik:** Farbwahl, Whitespace, Typografie.
+4. **Verbesserungsvorschläge:** 3 konkrete Punkte für bessere Conversion oder User Experience.
+5. **Bonus Code:** Gib mir einen kurzen Tailwind-CSS Code-Schnipsel, um das wichtigste Element (z.B. CTA Button) zu verbessern.
+                """},
+                {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{image_b64}"}}
+            ]
+        )
+        
+        # 3. Anfrage an Vision Model
+        response = vision_llm.invoke([message])
+        return {"analysis": response.content}
+
+    except Exception as e:
+        print(f"❌ Vision Fehler: {e}")
+        error_str = str(e).lower()
+        if "429" in error_str or "resource_exhausted" in error_str:
+             return {"analysis": "⚠️ **Rate Limit erreicht.** Google's Vision AI braucht eine kurze Pause. Bitte warte ca. 60 Sekunden."}
+        return {"analysis": f"Fehler bei der Bildanalyse: {str(e)}"}
