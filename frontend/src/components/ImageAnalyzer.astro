@@ -131,10 +131,10 @@
   import { marked } from 'marked';
 
   // --- CONFIG: Deine Cloud URL ---
-  const API_URL =
-    'https://8000-firebase-realizetogether-ai-1768386888249.cluster-6vyo4gb53jczovun3dxslzjahs.cloudworkstations.dev/api/vision';
+  const BASE_URL = import.meta.env.PUBLIC_API_URL; 
+  const API_URL = `${BASE_URL}/api/vision`; 
 
-  console.log('Vision verbindet zu:', API_URL);
+  console.log("Verbinde zu Backend:", API_URL);
 
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
