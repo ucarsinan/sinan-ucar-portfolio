@@ -13,14 +13,22 @@ import base64
 load_dotenv()
 app = FastAPI()
 
-# 2. Sicherheit (CORS für IDX)
+origins = [
+    "http://localhost:4321",                      # Für lokale Entwicklung
+    "http://localhost:3000",                      # Falls Astro manchmal auf 3000 läuft
+    "https://sinan.realizetogether.com",          # DEINE LIVE DOMAIN (Wichtig!)
+    "https://sinan-backend.onrender.com"          # Das Backend selbst
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # <--- WICHTIG: Sternchen erlaubt Zugriff von überall
-    allow_credentials=True,
+    allow_origins=origins,      # Statt ["*"] nehmen wir die Liste
+    allow_credentials=True,     # Das darf bleiben, weil wir oben exakte Domains haben
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# ... (restlicher Code bleibt gleich)
 
 # 3. Globale Variable für das "Gehirn" (Lebenslauf)
 CV_CONTEXT = ""
