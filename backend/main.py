@@ -28,8 +28,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# ... (restlicher Code bleibt gleich)
-
 # 3. Globale Variable für das "Gehirn" (Lebenslauf)
 CV_CONTEXT = ""
 
