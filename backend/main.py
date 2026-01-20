@@ -1,7 +1,7 @@
 from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel  # Standard Pydantic für FastAPI Requests
-from langchain_core.pydantic_v1 import BaseModel as LCBaseModel, Field  # Spezielles Pydantic für LangChain Output
+# WICHTIG: Wir nutzen jetzt NUR NOCH das Standard-Pydantic (v2)
+from pydantic import BaseModel, Field 
 from typing import Literal
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
@@ -33,7 +33,7 @@ origins = [
     "https://www.sinan.realizetogether.com",
     "https://realizetogether.com",
     "https://www.realizetogether.com",
-    "https://realizetogether-ai.onrender.com", # Dein Backend selbst
+    "https://realizetogether-ai.onrender.com", 
 ]
 
 app.add_middleware(
@@ -96,21 +96,21 @@ vision_llm = ChatGoogleGenerativeAI(
 )
 
 # ==========================================
-# 4. DATENMODELLE (Pydantic)
+# 4. DATENMODELLE (Pydantic v2)
 # ==========================================
 
-# Modell für Chat-Requests (Frontend -> Backend)
+# Modell für Chat-Requests
 class ChatRequest(BaseModel):
     message: str
     language: str = "de"
 
-# Modell für Sentiment-Analyse Input (Frontend -> Backend)
+# Modell für Sentiment-Analyse Input
 class AnalyzeRequest(BaseModel):
     text: str
 
-# Modell für Sentiment-Analyse OUTPUT (Backend -> AI -> Backend)
-# Wir nutzen hier LCBaseModel (Alias), um Konflikte zu vermeiden
-class SentimentAnalysis(LCBaseModel):
+# Modell für Sentiment-Analyse OUTPUT
+# Jetzt erben wir einfach von BaseModel (Standard)
+class SentimentAnalysis(BaseModel):
     score: float = Field(
         description="Ein Wert zwischen -1.0 (sehr negativ) und 1.0 (sehr positiv)."
     )
@@ -217,12 +217,12 @@ Erstelle eine Analyse im Markdown-Format:
              return {"analysis": "⚠️ **Rate Limit erreicht.** Google's Vision AI braucht eine kurze Pause."}
         return {"analysis": f"Fehler bei der Bildanalyse: {str(e)}"}
 
-# --- ANALYSE (Neu: Structured Output) ---
+# --- ANALYSE (Structured Output) ---
 @app.post("/api/analyze")
 async def analyze_endpoint(request: AnalyzeRequest):
     print(f"🕵️ Analysiere Sentiment für: {request.text[:50]}...")
 
-    # 1. Wir zwingen das LLM in unser Schema (nutzt LCBaseModel)
+    # 1. Wir zwingen das LLM in unser Schema
     structured_llm = chat_llm.with_structured_output(SentimentAnalysis)
 
     # 2. Der Prompt
@@ -252,6 +252,5 @@ async def analyze_endpoint(request: AnalyzeRequest):
 # ==========================================
 if __name__ == "__main__":
     import uvicorn
-    # Nutze PORT env variable für Render, fallback auf 8000
     port = int(os.environ.get("PORT", 8000))
     uvicorn.run(app, host="0.0.0.0", port=port)
