@@ -131,10 +131,10 @@
   import { marked } from 'marked';
 
   // --- CONFIG: Deine Cloud URL ---
-  const BASE_URL = import.meta.env.PUBLIC_API_URL; 
-  const API_URL = `${BASE_URL}/api/vision`; 
+  const BASE_URL = import.meta.env.PUBLIC_API_URL;
+  const API_URL = `${BASE_URL}/api/vision`;
 
-  console.log("Verbinde zu Backend:", API_URL);
+  console.log('Verbinde zu Backend:', API_URL);
 
   const dropZone = document.getElementById('drop-zone');
   const fileInput = document.getElementById('file-input');
@@ -246,7 +246,7 @@
       alert(
         `Verbindungsfehler: ${errorMessage}. \n\nTipp: Prüfe, ob 'Gemini Flash' im Backend korrekt konfiguriert ist (404 Fehler).`
       );
-      
+
       loading?.classList.add('hidden');
       analyzeBtn?.classList.remove('hidden');
     }

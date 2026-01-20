@@ -95,10 +95,10 @@ const placeholderText = lang === 'de' ? 'Frage eingeben...' : 'Ask a question...
   const chatWrapper = document.getElementById('chat-wrapper'); // Wrapper holen
 
   // --- CONFIG: Deine Cloud URL ---
-  const BASE_URL = import.meta.env.PUBLIC_API_URL; 
-  const API_URL = `${BASE_URL}/api/chat`; 
+  const BASE_URL = import.meta.env.PUBLIC_API_URL;
+  const API_URL = `${BASE_URL}/api/chat`;
 
-  console.log("Verbinde zu Backend:", API_URL);
+  console.log('Verbinde zu Backend:', API_URL);
 
   function setStatus(state) {
     if (!statusText || !statusDot || !statusPing) return;

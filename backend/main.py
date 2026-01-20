@@ -1,6 +1,8 @@
 from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel  # Standard Pydantic für FastAPI Requests
+from langchain_core.pydantic_v1 import BaseModel as LCBaseModel, Field  # Spezielles Pydantic für LangChain Output
+from typing import Literal
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.messages import HumanMessage
@@ -8,7 +10,9 @@ from dotenv import load_dotenv
 import os
 import base64
 
-# 1. Setup
+# ==========================================
+# 1. SETUP & KONFIGURATION
+# ==========================================
 load_dotenv()
 app = FastAPI()
 
@@ -16,11 +20,12 @@ app = FastAPI()
 @app.middleware("http")
 async def log_origin(request: Request, call_next):
     origin = request.headers.get("origin")
-    print(f"🔔 Eingehender Request von Origin: {origin}")
+    if origin:
+        print(f"🔔 Eingehender Request von Origin: {origin}")
     response = await call_next(request)
     return response
 
-# 2. CORS - Konfiguration
+# CORS - Konfiguration
 origins = [
     "http://localhost:4321",
     "http://localhost:3000",
@@ -28,8 +33,7 @@ origins = [
     "https://www.sinan.realizetogether.com",
     "https://realizetogether.com",
     "https://www.realizetogether.com",
-    # WICHTIG: Das ist dein echter Backend-Name aus dem Screenshot!
-    "https://realizetogether-ai.onrender.com", 
+    "https://realizetogether-ai.onrender.com", # Dein Backend selbst
 ]
 
 app.add_middleware(
@@ -40,7 +44,9 @@ app.add_middleware(
     allow_headers=["*"],       
 )
 
-# 3. Globale Variable initialisieren (Wichtig: Nicht auskommentieren!)
+# ==========================================
+# 2. DATEN & LOGIK (Lebenslauf)
+# ==========================================
 CV_CONTEXT = ""
 
 def load_cv():
@@ -56,7 +62,6 @@ def load_cv():
 
         print(f"📂 Lade Lebenslauf von: {file_path} ...")
         
-        # Markdown als Text lesen (UTF-8 wichtig für Umlaute)
         with open(file_path, "r", encoding="utf-8") as f:
             CV_CONTEXT = f.read()
             
@@ -69,12 +74,14 @@ def load_cv():
 # Beim Starten einmal ausführen
 load_cv()
 
-# 4. AI Setup
+# ==========================================
+# 3. AI SETUP (Modelle)
+# ==========================================
 api_key = os.getenv("GOOGLE_API_KEY")
 
 # Modell für den Chat
 chat_llm = ChatGoogleGenerativeAI(
-    model="gemini-flash-lite-latest", # Oder "gemini-1.5-flash" falls lite zickt
+    model="gemini-flash-lite-latest", 
     google_api_key=api_key,
     max_retries=0,       
     request_timeout=10.0
@@ -82,24 +89,48 @@ chat_llm = ChatGoogleGenerativeAI(
 
 # Modell für Vision
 vision_llm = ChatGoogleGenerativeAI(
-    model="gemini-flash-latest", # Oder "gemini-1.5-flash"
+    model="gemini-flash-latest", 
     google_api_key=api_key,
     max_retries=0,
     request_timeout=20.0 
 )
 
-# 5. Datenmodelle
+# ==========================================
+# 4. DATENMODELLE (Pydantic)
+# ==========================================
+
+# Modell für Chat-Requests (Frontend -> Backend)
 class ChatRequest(BaseModel):
     message: str
     language: str = "de"
 
-# 6. Endpunkt: CHAT
+# Modell für Sentiment-Analyse Input (Frontend -> Backend)
+class AnalyzeRequest(BaseModel):
+    text: str
+
+# Modell für Sentiment-Analyse OUTPUT (Backend -> AI -> Backend)
+# Wir nutzen hier LCBaseModel (Alias), um Konflikte zu vermeiden
+class SentimentAnalysis(LCBaseModel):
+    score: float = Field(
+        description="Ein Wert zwischen -1.0 (sehr negativ) und 1.0 (sehr positiv)."
+    )
+    emotion: Literal['freude', 'wut', 'trauer', 'neutral', 'angst'] = Field(
+        description="Die primäre Emotion, die im Text erkannt wurde."
+    )
+    suggestion: str = Field(
+        description="Ein kurzer, höflicher Tipp an den Verfasser, wie er den Text professioneller formulieren könnte (max. 1 Satz)."
+    )
+
+# ==========================================
+# 5. ENDPUNKTE (API Routes)
+# ==========================================
+
+# --- CHAT ---
 @app.post("/api/chat")
 async def chat_endpoint(request: ChatRequest):
     print(f"📩 Frage: {request.message} | Sprache: {request.language}")
     
     if request.language == "en":
-        # Englischer Prompt
         prompt_template = ChatPromptTemplate.from_template("""
         You are the professional AI assistant for Sinan. 
         Use the following resume to answer questions:
@@ -117,7 +148,6 @@ async def chat_endpoint(request: ChatRequest):
         {user_message}
         """)
     else:
-        # Deutscher Prompt
         prompt_template = ChatPromptTemplate.from_template("""
         Du bist der professionelle AI-Assistent von Sinan. 
         Nutze den folgenden Lebenslauf, um Fragen zu beantworten:
@@ -152,7 +182,7 @@ async def chat_endpoint(request: ChatRequest):
         
         return {"reply": f"Ein technisches Problem ist aufgetreten: {str(e)}"}
 
-# 7. Endpunkt: VISION
+# --- VISION ---
 @app.post("/api/vision")
 async def vision_endpoint(file: UploadFile = File(...)):
     print(f"🖼️ Bild empfangen: {file.filename}")
@@ -187,6 +217,41 @@ Erstelle eine Analyse im Markdown-Format:
              return {"analysis": "⚠️ **Rate Limit erreicht.** Google's Vision AI braucht eine kurze Pause."}
         return {"analysis": f"Fehler bei der Bildanalyse: {str(e)}"}
 
+# --- ANALYSE (Neu: Structured Output) ---
+@app.post("/api/analyze")
+async def analyze_endpoint(request: AnalyzeRequest):
+    print(f"🕵️ Analysiere Sentiment für: {request.text[:50]}...")
+
+    # 1. Wir zwingen das LLM in unser Schema (nutzt LCBaseModel)
+    structured_llm = chat_llm.with_structured_output(SentimentAnalysis)
+
+    # 2. Der Prompt
+    prompt = ChatPromptTemplate.from_template("""
+    Analysiere den folgenden Text gründlich.
+    Fülle das vorgegebene Schema exakt aus.
+    
+    TEXT: {user_text}
+    """)
+
+    # 3. Kette bilden
+    chain = prompt | structured_llm
+
+    try:
+        # 4. Ausführen
+        result = chain.invoke({"user_text": request.text})
+        
+        print(f"📊 Ergebnis: {result.score} | {result.emotion}")
+        return result 
+
+    except Exception as e:
+        print(f"❌ Analyse-Fehler: {e}")
+        return {"error": str(e)}
+
+# ==========================================
+# 6. STARTUP
+# ==========================================
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    # Nutze PORT env variable für Render, fallback auf 8000
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
