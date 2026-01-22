@@ -1,0 +1,56 @@
+---
+// frontend/src/pages/ai.astro
+import Layout from '../layouts/Layout.astro';
+import MoodWidget from '../components/MoodWidget.astro';
+import ImageAnalyzer from '../components/ImageAnalyzer.astro';
+---
+
+<Layout title="AI Showcase | Sinan.AI">
+  <main class="min-h-screen pt-24 pb-20 px-4">
+    
+    <div class="text-center mb-16">
+      <h1 class="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 mb-6 animate-fade-in-up">
+        AI Engineering Showcase
+      </h1>
+      <p class="text-slate-400 text-lg max-w-2xl mx-auto leading-relaxed animate-fade-in-up delay-100">
+        Hier demonstriere ich praktische Anwendungen moderner KI-Technologien:
+        Von <strong>multimodaler Bildanalyse</strong> bis hin zu <strong>strukturierter Textverarbeitung</strong> (Structured Output).
+        Alles live verbunden mit meinem Python FastAPI Backend.
+      </p>
+    </div>
+
+    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+      
+      <div class="animate-fade-in-left delay-200">
+        <div class="mb-6 flex items-center gap-3">
+          <div class="p-3 bg-blue-500/20 rounded-lg text-blue-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Sentiment & Structured Output</h2>
+        </div>
+        <MoodWidget />
+        
+        <div class="mt-4 p-4 bg-slate-900/50 rounded-lg border border-slate-800 text-sm text-slate-400">
+          <strong class="text-blue-400">Technik:</strong> Pydantic v2, LangChain, FastAPI.<br>
+          Die KI analysiert nicht nur Text, sondern liefert garantiertes JSON für die Weiterverarbeitung.
+        </div>
+      </div>
+
+      <div class="animate-fade-in-right delay-300">
+        <div class="mb-6 flex items-center gap-3">
+          <div class="p-3 bg-purple-500/20 rounded-lg text-purple-400">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
+          </div>
+          <h2 class="text-2xl font-bold text-white">Vision & UX Analyse</h2>
+        </div>
+        <ImageAnalyzer />
+
+        <div class="mt-4 p-4 bg-slate-900/50 rounded-lg border border-slate-800 text-sm text-slate-400">
+          <strong class="text-purple-400">Technik:</strong> Google Gemini Vision Model.<br>
+          Lädt Bilder hoch, encodiert sie zu Base64 und analysiert UI/UX-Elemente semantisch.
+        </div>
+      </div>
+
+    </div>
+  </main>
+</Layout>

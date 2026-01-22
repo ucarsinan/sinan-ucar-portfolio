@@ -1,275 +1,138 @@
-<div class="max-w-3xl mx-auto">
-  <div
-    id="drop-zone"
-    class="border-2 border-dashed border-slate-700 rounded-2xl p-12 text-center hover:border-blue-500/50 hover:bg-slate-800/50 transition-all cursor-pointer group bg-slate-900/30"
-  >
-    <input type="file" id="file-input" class="hidden" accept="image/png, image/jpeg, image/webp" />
+---
+const API_URL = import.meta.env.PUBLIC_API_URL;
+---
 
-    <div class="flex flex-col items-center gap-4">
-      <div
-        class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center group-hover:scale-110 transition-transform shadow-lg shadow-blue-900/20 border border-slate-700"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="1.5"
-          stroke="currentColor"
-          class="w-8 h-8 text-blue-400"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5"
-          ></path>
-        </svg>
-      </div>
-      <div>
-        <h3 class="text-xl font-bold text-white group-hover:text-blue-300 transition-colors">
-          Bild hochladen
-        </h3>
-        <p class="text-slate-400 mt-2 text-sm">Screenshot hier ablegen (PNG, JPG)</p>
-      </div>
-    </div>
-  </div>
+<div class="bg-slate-800 p-6 rounded-2xl border border-slate-700 shadow-xl h-full flex flex-col">
+  <h3 class="text-xl font-bold text-white mb-2 flex items-center gap-2">
+    👁️ Vision Analyse
+  </h3>
+  <p class="text-slate-400 text-sm mb-4">
+    Lade einen Screenshot hoch. Die KI analysiert UX, Design und Code.
+  </p>
 
-  <div
-    id="preview-connpx prettier --write "
-    **
-    *.astro"
-    "**
-    *.ts"tainer"
-    class="hidden mt-8 text-center animate-fade-in"
-  >
-    <div class="relative inline-block group">
-      <img
-        id="image-preview"
-        class="max-h-[400px] mx-auto rounded-lg border border-slate-700 shadow-2xl"
-      />
-      <button
-        id="remove-btn"
-        class="absolute -top-3 -right-3 bg-red-500 text-white rounded-full p-2 shadow-lg hover:bg-red-600 transition-colors"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="w-4 h-4"
-        >
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-
-    <div class="mt-8">
-      <button
-        id="analyze-btn"
-        class="px-8 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-900/20 flex items-center gap-2 mx-auto"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="w-5 h-5"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"
-          ></path>
-        </svg>
-        Analyse starten
-      </button>
-    </div>
-  </div>
-
-  <div id="loading" class="hidden mt-12 text-center">
-    <div
-      class="inline-block animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-emerald-400 mb-4 shadow-[0_0_15px_rgba(52,211,153,0.5)]"
+  <div class="flex-grow flex flex-col gap-4">
+    
+    <div 
+      id="drop-zone"
+      class="relative w-full h-48 border-2 border-dashed border-slate-600 rounded-xl hover:border-blue-500 hover:bg-slate-700/50 transition-all flex flex-col justify-center items-center cursor-pointer group overflow-hidden bg-slate-900/50"
     >
+      <input type="file" id="file-input" accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+      
+      <div id="placeholder" class="text-center p-4 transition-opacity duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-slate-500 mx-auto mb-2 group-hover:text-blue-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <p class="text-slate-400 text-sm font-medium">Bild hierhin ziehen oder klicken</p>
+        <p class="text-slate-600 text-xs mt-1">PNG, JPG (max 4MB)</p>
+      </div>
+
+      <img id="image-preview" class="absolute inset-0 w-full h-full object-contain bg-slate-900 hidden z-0 p-2" />
     </div>
-    <p class="text-emerald-400 font-mono text-sm animate-pulse tracking-widest">
-      VISION ENGINE PROCESSING...
-    </p>
+
+    <button 
+      id="vision-btn"
+      disabled
+      class="w-full bg-purple-600 hover:bg-purple-500 disabled:bg-slate-700 disabled:text-slate-500 disabled:cursor-not-allowed text-white font-medium py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2"
+    >
+      <span>Analysieren</span>
+      <svg id="vision-spinner" class="animate-spin h-4 w-4 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+    </button>
   </div>
 
-  <div
-    id="result"
-    class="hidden mt-12 bg-slate-900/80 backdrop-blur-sm border border-slate-700 rounded-2xl p-8 shadow-2xl animate-fade-in-up"
-  >
-    <div class="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
-      <div
-        class="w-8 h-8 rounded-full bg-emerald-500/10 flex items-center justify-center border border-emerald-500/20"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke-width="2"
-          stroke="currentColor"
-          class="w-4 h-4 text-emerald-400"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-        </svg>
-      </div>
-      <h3 class="text-lg font-bold text-white">Analyse Ergebnis</h3>
+  <div id="vision-result" class="hidden mt-6 pt-4 border-t border-slate-700 animate-fade-in">
+    <h4 class="text-sm font-bold text-purple-400 mb-2 uppercase tracking-wide">Analyse Ergebnis:</h4>
+    <div id="markdown-content" class="prose prose-invert prose-sm max-w-none text-slate-300 bg-slate-900/50 p-4 rounded-lg border border-slate-700/50 max-h-60 overflow-y-auto custom-scrollbar">
+      ...
     </div>
-
-    <div id="markdown-content" class="prose prose-invert max-w-none text-slate-300"></div>
   </div>
 </div>
 
-<script>
-  // Robustes Importieren von marked (verhindert Absturz)
-  import { marked } from 'marked';
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js" is:inline></script>
 
-  // --- CONFIG: Deine Cloud URL ---
-  const BASE_URL = import.meta.env.PUBLIC_API_URL;
-  const API_URL = `${BASE_URL}/api/vision`;
-
-  console.log('Verbinde zu Backend:', API_URL);
-
-  const dropZone = document.getElementById('drop-zone');
+<script define:vars={{ API_URL }}>
   const fileInput = document.getElementById('file-input');
-  const previewContainer = document.getElementById('preview-container');
-  const imagePreview = document.getElementById('image-preview');
-  const analyzeBtn = document.getElementById('analyze-btn');
-  const removeBtn = document.getElementById('remove-btn');
-  const loading = document.getElementById('loading');
-  const result = document.getElementById('result');
+  const placeholder = document.getElementById('placeholder');
+  const preview = document.getElementById('image-preview');
+  const btn = document.getElementById('vision-btn');
+  const spinner = document.getElementById('vision-spinner');
+  const resultArea = document.getElementById('vision-result');
   const markdownContent = document.getElementById('markdown-content');
 
-  let currentFile = null;
+  let selectedFile = null;
 
-  dropZone?.addEventListener('click', () => fileInput?.click());
+  // 1. Datei Auswahl Handler
+  fileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
 
-  dropZone?.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    dropZone.classList.add('border-blue-500', 'bg-slate-800/80');
-  });
-
-  dropZone?.addEventListener('dragleave', () => {
-    dropZone.classList.remove('border-blue-500', 'bg-slate-800/80');
-  });
-
-  dropZone?.addEventListener('drop', (e) => {
-    e.preventDefault();
-    dropZone.classList.remove('border-blue-500', 'bg-slate-800/80');
-    // @ts-ignore
-    if (e.dataTransfer?.files.length) handleFile(e.dataTransfer.files[0]);
-  });
-
-  fileInput?.addEventListener('change', (e) => {
-    // @ts-ignore
-    if (e.target?.files?.length) handleFile(e.target.files[0]);
-  });
-
-  removeBtn?.addEventListener('click', () => {
-    currentFile = null;
-    // @ts-ignore
-    if (fileInput) fileInput.value = '';
-    previewContainer?.classList.add('hidden');
-    dropZone?.classList.remove('hidden');
-    result?.classList.add('hidden');
-  });
-
-  analyzeBtn?.addEventListener('click', runAnalysis);
-
-  // @ts-ignore
-  function handleFile(file) {
-    if (!file.type.startsWith('image/')) {
-      alert('Bitte lade nur Bilddateien hoch (JPG, PNG).');
-      return;
-    }
-    currentFile = file;
+    selectedFile = file;
+    
+    // Preview anzeigen
     const reader = new FileReader();
     reader.onload = (e) => {
-      // @ts-ignore
-      if (imagePreview) imagePreview.src = e.target?.result;
-      dropZone?.classList.add('hidden');
-      previewContainer?.classList.remove('hidden');
-      result?.classList.add('hidden');
+      preview.src = e.target.result;
+      preview.classList.remove('hidden'); // Bild zeigen
+      placeholder.classList.add('hidden'); // Text verstecken
+      btn.disabled = false; // Button aktivieren
     };
     reader.readAsDataURL(file);
-  }
+  });
 
-  async function runAnalysis() {
-    if (!currentFile) return;
+  // 2. Analyse Handler
+  btn.addEventListener('click', async () => {
+    if (!selectedFile) return;
 
-    analyzeBtn?.classList.add('hidden');
-    loading?.classList.remove('hidden');
-    result?.classList.add('hidden');
-
+    // UI Loading State
+    btn.disabled = true;
+    spinner.classList.remove('hidden');
+    resultArea.classList.add('hidden');
+    
     const formData = new FormData();
-    formData.append('file', currentFile);
+    formData.append('file', selectedFile);
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(`${API_URL}/api/vision`, {
         method: 'POST',
         body: formData
       });
 
-      if (!res.ok) throw new Error(`Server Error: ${res.status}`);
-
       const data = await res.json();
-
-      loading?.classList.add('hidden');
-      result?.classList.remove('hidden');
-      analyzeBtn?.classList.remove('hidden');
-
-      // Ergebnis parsen
-      let analysisText = data.analysis;
-      if (Array.isArray(analysisText)) analysisText = analysisText.join('');
-      if (!analysisText) analysisText = '⚠️ Keine Text-Antwort erhalten.';
-
-      // @ts-ignore
-      // Robustes Parsen: Falls marked fehlschlägt, zeige Text pur an
-      if (markdownContent) {
-        try {
-          markdownContent.innerHTML = await marked.parse(analysisText);
-        } catch (e) {
-          markdownContent.innerText = analysisText;
-        }
+      
+      if (data.analysis) {
+        // Markdown parsen (dank marked.js)
+        // @ts-ignore
+        markdownContent.innerHTML = marked.parse(data.analysis);
+        resultArea.classList.remove('hidden');
+      } else {
+        alert("Keine Analyse erhalten.");
       }
+
     } catch (e) {
       console.error(e);
-
-      const errorMessage = e instanceof Error ? e.message : String(e);
-
-      alert(
-        `Verbindungsfehler: ${errorMessage}. \n\nTipp: Prüfe, ob 'Gemini Flash' im Backend korrekt konfiguriert ist (404 Fehler).`
-      );
-
-      loading?.classList.add('hidden');
-      analyzeBtn?.classList.remove('hidden');
+      alert("Fehler bei der Vision-Analyse: " + e.message);
+    } finally {
+      btn.disabled = false;
+      spinner.classList.add('hidden');
     }
-  }
+  });
 </script>
 
-<style is:global>
-  #markdown-content h1,
-  #markdown-content h2 {
-    color: white;
-    font-weight: 700;
-    margin: 1.5em 0 0.8em;
+<style>
+  /* Hübscher Scrollbar für den Textbereich */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
   }
-  #markdown-content strong {
-    color: #34d399;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(30, 41, 59, 0.5);
   }
-  #markdown-content ul {
-    list-style-type: disc;
-    padding-left: 1.5em;
-    margin-bottom: 1em;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(71, 85, 105, 0.8);
+    border-radius: 3px;
   }
-  #markdown-content p {
-    margin-bottom: 1em;
-    line-height: 1.7;
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(148, 163, 184, 0.8);
   }
 </style>

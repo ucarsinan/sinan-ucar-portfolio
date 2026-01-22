@@ -1,4 +1,5 @@
 ---
+// frontend/src/components/Navbar.astro
 import LanguagePicker from './LanguagePicker.astro';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 
@@ -10,7 +11,7 @@ const t = {
   about: lang === 'de' ? 'Profil' : 'Profile',
   cv: lang === 'de' ? 'Lebenslauf' : 'Resume',
   projects: lang === 'de' ? 'Projekte' : 'Projects',
-  demo: lang === 'de' ? 'AI Vision Demo' : 'AI Vision Demo',
+  showcase: lang === 'de' ? 'AI Showcase' : 'AI Showcase', 
   contact: lang === 'de' ? 'Kontakt' : 'Contact'
 };
 
@@ -19,7 +20,7 @@ const links = [
   { name: t.about, href: getRelativeLocaleUrl(lang, 'about') },
   { name: t.cv, href: getRelativeLocaleUrl(lang, 'cv') },
   { name: t.projects, href: getRelativeLocaleUrl(lang, 'projects') },
-  { name: t.demo, href: getRelativeLocaleUrl(lang, 'demos/vision') },
+  { name: t.showcase, href: getRelativeLocaleUrl(lang, 'ai') }, 
   { name: t.contact, href: getRelativeLocaleUrl(lang, 'contact') }
 ];
 
@@ -46,7 +47,8 @@ const currentPath = Astro.url.pathname;
                 href={link.href}
                 class:list={[
                   'px-3 py-2 rounded-md text-sm font-medium transition-all duration-200',
-                  currentPath === link.href
+                  // Highlight Logik: Prüft, ob der Pfad exakt übereinstimmt ODER ob wir auf einer Unterseite sind
+                  currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href))
                     ? 'bg-slate-800 text-emerald-400 border border-emerald-500/20 shadow-[0_0_10px_rgba(16,185,129,0.1)]'
                     : 'text-slate-300 hover:text-white hover:bg-slate-800'
                 ]}
