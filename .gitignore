@@ -13,3 +13,5 @@ frontend/dist/
 __pycache__/
 .vercel
 .env*.local
+bundle_code.py
+codebase.txt
