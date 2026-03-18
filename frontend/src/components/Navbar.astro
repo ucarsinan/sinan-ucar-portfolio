@@ -9,7 +9,7 @@ const routes = {
   home: { de: '/', en: '/' },
   about: { de: 'profil', en: 'profile' }, // <--- NEU: 'profile' statt 'about'
   cv: { de: 'lebenslauf', en: 'resume' },
-  projects: { de: 'projekte', en: 'projects' },
+  blog: { de: 'blog', en: 'blog' },
   ai: { de: 'ai', en: 'ai' },
   contact: { de: 'kontakt', en: 'contact' }
 };
@@ -18,7 +18,7 @@ const t = {
   home: 'Home',
   about: lang === 'de' ? 'Profil' : 'Profile', // Label stimmt jetzt zur URL
   cv: lang === 'de' ? 'Lebenslauf' : 'Resume',
-  projects: lang === 'de' ? 'Projekte' : 'Projects',
+  blog: 'Blog',
   showcase: 'AI Showcase',
   contact: lang === 'de' ? 'Kontakt' : 'Contact'
 };
@@ -27,7 +27,7 @@ const links = [
   { name: t.home, href: getRelativeLocaleUrl(lang, routes.home[lang]) },
   { name: t.about, href: getRelativeLocaleUrl(lang, routes.about[lang]) },
   { name: t.cv, href: getRelativeLocaleUrl(lang, routes.cv[lang]) },
-  { name: t.projects, href: getRelativeLocaleUrl(lang, routes.projects[lang]) },
+  { name: t.blog, href: getRelativeLocaleUrl(lang, routes.blog[lang]) },
   { name: t.showcase, href: getRelativeLocaleUrl(lang, routes.ai[lang]) },
   { name: t.contact, href: getRelativeLocaleUrl(lang, routes.contact[lang]) }
 ];

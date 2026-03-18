@@ -15,3 +15,8 @@ __pycache__/
 .env*.local
 bundle_code.py
 codebase.txt
+
+# Projekte-Seite (temporär ausgeblendet)
+frontend/src/pages/projekte.astro
+frontend/src/pages/en/projects.astro
+frontend/src/components/ProjectCard.astro
