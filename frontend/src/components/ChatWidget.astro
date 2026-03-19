@@ -171,15 +171,17 @@ const placeholderText = lang === 'de' ? 'Frage eingeben...' : 'Ask a question...
         body: JSON.stringify({ message: msgText, language: currentLang })
       });
 
-      if ((res.status === 502 || res.status === 503) && retryCount < 2) {
-        appendMessage(
-          currentLang === 'de'
-            ? 'KI-System startet (Cold Start). Automatischer Neuversuch in 30 Sek...'
-            : 'AI system starting (cold start). Auto-retry in 30s...',
-          'ai'
-        );
-        setStatus('starting');
-        await new Promise((r) => setTimeout(r, 30_000));
+      if ((res.status === 502 || res.status === 503) && retryCount < 8) {
+        if (retryCount === 0) {
+          appendMessage(
+            currentLang === 'de'
+              ? 'KI-System startet (Cold Start). Bitte warte ca. 1–2 Minuten...'
+              : 'AI system starting (cold start). Please wait 1–2 minutes...',
+            'ai'
+          );
+          setStatus('starting');
+        }
+        await new Promise((r) => setTimeout(r, 15_000));
         await sendMessage(msgText, retryCount + 1);
         return;
       }
