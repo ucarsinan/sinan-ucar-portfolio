@@ -24,6 +24,51 @@ Die architektonische Lösung in Python heißt **AsyncIO**. Statt blind zu blocki
 **Fazit:** Wer heute externe KI-Modelle oder Vektordatenbanken anbindet, kann sich sequenzielles Warten nicht mehr leisten. Asynchrone Programmierung ist das zwingende Fundament für skalierbare KI-Systeme.`
   },
   {
+    slug: 'determinismus-zu-wahrscheinlichkeit',
+    title: 'Vom Determinismus zur Wahrscheinlichkeit: Warum ich lerne, die Kontrolle abzugeben',
+    publishedAt: new Date('2026-03-19'),
+    tags: ['AI Engineering', 'LLM', 'Paradigmenwechsel', 'Softwareentwicklung'],
+    excerpt:
+      'Als ich mein Diplom in Informatik machte, war die Welt binär: if (x) then y. Heute fasziniert mich der radikale Wechsel von absoluter Logik zu Wahrscheinlichkeiten – und was das für einen Ingenieur aus der Welt der strikten Typisierung bedeutet.',
+    content: `Als ich vor über 15 Jahren mein Diplom in Informatik machte, war die Welt binär: \`if (x) then y\`. Ein Bug war ein logischer Fehler in einer Kette von absoluter Gewissheit. Wir bauten Kathedralen aus deterministischem Code – starr und sicher. Die Herausforderung heute: Ein System zu entwerfen, das "versteht", was ein Nutzer meint, ohne dass wir Millionen von Regelsätzen schreiben.
+
+In meiner aktuellen Auseinandersetzung mit LLMs fasziniert mich der Wechsel von absoluter Logik zu Wahrscheinlichkeiten. Es ist ein **radikaler Paradigmenwechsel**: Wir programmieren nicht mehr jede Abzweigung, wir definieren den Zielkorridor. Für einen Ingenieur, der aus der Welt der strikten Typisierung kommt, ist das erst einmal kontraintuitiv – aber genau hier liegt die neue Hebelwirkung.
+
+**Die technische Brücke:** Mein Ansatz ist es, Pydantic zu nutzen, um dieses "probabilistische Chaos" in deterministische Bahnen zu lenken. Die KI liefert die kreative Flexibilität, aber mein Validierungs-Filter sorgt für die notwendige Struktur des Software-Engineerings.
+
+**Das Gefühl:** Es ist, als würde man vom Solo-Pianisten zum Dirigenten. Man spielt nicht mehr jede Note selbst, sondern orchestriert die Intelligenz.`
+  },
+  {
+    slug: 'tod-des-boilerplate-burnouts',
+    title: 'Der Tod des Boilerplate-Burnouts: Wie KI uns die Zeit für Architektur zurückgibt',
+    publishedAt: new Date('2026-03-19'),
+    tags: ['AI Engineering', 'Produktivität', 'Softwareentwicklung', 'Architektur'],
+    excerpt:
+      'Wie viele Wochen unseres Berufslebens haben wir damit verbracht, CRUD-Schnittstellen oder Datenbank-Migrationen zu schreiben? KI verschiebt den Fokus massiv – weg vom Code-Schaufeln, hin zum Systemdesign.',
+    content: `Wie viele Wochen unseres Berufslebens haben wir damit verbracht, CRUD-Schnittstellen oder Datenbank-Migrationen zu schreiben? Gestern war es undenkbar, ein stabiles Grundgerüst in kürzester Zeit hochzuziehen.
+
+Durch den gezielten Einsatz von KI-Unterstützung im Development-Prozess verschiebt sich der Fokus massiv. Während die KI repetitive Aufgaben und Standard-Boilerplate übernimmt, kann ich mich auf das konzentrieren, was wirklich zählt: Das **Systemdesign**. Wie skalieren die Vektor-Embeddings? Wie sieht eine robuste RAG-Strategie aus?
+
+**Die technische Brücke:** In meinem Portfolio-Projekt nutze ich Astro Islands und asynchrones Python, um den Overhead minimal zu halten. Die KI dient hier als hocheffizienter Assistent für Standardaufgaben, damit Raum für echte Architektur-Entscheidungen bleibt.
+
+**Das Gefühl:** Es ist eine Befreiung. Wir müssen keine "Code-Schaufler" mehr sein. Nach 15 Jahren Erfahrung spüre ich, wie die KI mir die Zeit zurückgibt, um über die großen Probleme nachzudenken.`
+  },
+  {
+    slug: 'wenn-code-mitdenkt',
+    title: 'Wenn Code plötzlich "mitdenkt": Die neue Ära des Kontextverständnisses',
+    publishedAt: new Date('2026-03-19'),
+    tags: ['AI Engineering', 'LLM', 'Vision API', 'Kontextverständnis'],
+    excerpt:
+      'In der klassischen Softwareentwicklung gab es keine Nuancen. Heute lote ich in meinen AI Showcase Experimenten aus, wie ein Agent die Dringlichkeit einer Anfrage erkennt und daraufhin die Priorität eines Workflows anpasst.',
+    content: `In der klassischen Softwareentwicklung gab es keine Nuancen. Ein Input war valide oder invalid. Dass ein System den Kontext einer Situation erfasst – zum Beispiel die Dringlichkeit in einer Anfrage erkennt und daraufhin die Priorität eines Workflows anpasst – war lange Zeit reine Theorie.
+
+In meinen aktuellen AI Showcase Experimenten lote ich genau diese Grenzen aus. Wenn ein Agent Tools nutzt, um eine vage Nutzeranfrage in eine präzise Aktion zu übersetzen, verlassen wir die Welt der einfachen Logik. Es geht um **simuliertes Verständnis** und situative Anpassung.
+
+**Die technische Brücke:** Ich experimentiere hier mit der Kombination aus Vision-APIs und Sentiment-Analyse. Ein Screenshot oder eine Nachricht wird analysiert, um nicht nur Daten zu extrahieren, sondern die Intention des Nutzers zu begreifen.
+
+**Das Gefühl:** Es gibt diesen Moment, wenn die KI eine Nuance erkennt, die nicht explizit codiert wurde. Software wird vom starren Werkzeug zum mitdenkenden Partner.`
+  },
+  {
     slug: 'typescript-zu-pydantic',
     title: 'Von TypeScript zu Pydantic: Meine Reise von deterministischer Software zu probabilistischer KI',
     publishedAt: new Date('2026-03-18'),
