@@ -1,100 +1,90 @@
-SİNAN UÇAR
+# SİNAN UÇAR
 
-Diplom-Informatiker | Senior AI Solutions Architect | Enterprise Architecture
-📍 Deutschland | ✉️ info@sinan.com
-🔗 LinkedIn: linkedin.com/in/infosinanucar | 🌐 Portfolio: sinanucar.com
+**Diplom-Informatiker | Senior AI Solutions Architect | Enterprise Architecture**
+📍 Deutschland (Remote) | ✉️ info@sinanucar.com
+🔗 LinkedIn: <https://linkedin.com/in/infosinanucar> | 🌐 Portfolio: <https://sinan.realizetogether.com/> | Website: <https://www.sinanucar.com/>
 
-KURZPROFIL
+---
 
-Diplom-Informatiker mit über 15 Jahren Erfahrung in der Software- und Enterprise-Architektur. Spezialisiert auf den Brückenschlag zwischen klassischer, deterministischer Softwareentwicklung und produktionsreifer generativer KI. Expertise im Aufbau von MLOps-Pipelines, skalierbaren RAG-Systemen und asynchronen Backend-Architekturen. Lösungsstarker Architekt, der komplexe Teams steuert und KI-Modelle sicher und compliancekonform in Produktion bringt.
+## KURZPROFIL
 
-TECHNOLOGISCHE KOMPETENZEN
+Diplom-Informatiker mit Praxiserfahrung im Enterprise Software Engineering seit 2009. Mein technologischer Fokus liegt auf der architektonischen Schnittstelle, an der viele Unternehmen aktuell scheitern: Der sicheren, deterministischen Integration von Generativer KI in gewachsene, klassische Softwarelandschaften.
 
-AI Engineering & MLOps: Python, FastAPI, LangChain, LangGraph, Pydantic, RAG-Architekturen, Agentic Workflows, LLM-Orchestrierung (OpenAI, Gemini), Prompt Engineering
+Während der Markt aktuell viel mit Prompts experimentiert, konzipiere und entwickle ich produktionsreife KI-Systeme. Ich schlage die Brücke zwischen klassischem Software-Engineering (C#, TypeScript, Node.js) und modernem AI Engineering (Python, LLM-Orchestrierung, RAG). Mein Ziel ist es, Latenzen, Halluzinationen und Sicherheitsrisiken durch strikte Data Governance und belastbare Architektur-Pattern auf ein Minimum zu reduzieren.
 
-Backend & Systemarchitektur: Node.js, Express, C#, Java, SQL, NoSQL (MongoDB), REST-APIs, Micro-Frontends, Client-Server-Architektur
+---
 
-DevOps, CI/CD & Testing: GitLab CI/CD, Docker, Kubernetes, Git, Playwright (E2E-Testing), Automatisierung, Jest
+## TECHNOLOGISCHE KOMPETENZEN
 
-Frontend Engineering: TypeScript, Astro (Islands Architecture), Web Components (Lit), Vue.js, React, Tailwind CSS
+- **AI Architecture & Integration:** Python, FastAPI, LangChain, LangGraph, Pydantic, RAG-Architekturen, Agentic Workflows, Lean-RAG, LLM-Orchestrierung (OpenAI, Gemini)
+- **Backend & Systemarchitektur:** Node.js, Express, C#, SQL, NoSQL, REST-APIs, Micro-Frontends, verteilte Client-Server-Architekturen
+- **DevOps, CI/CD & Testing:** GitLab CI/CD, Docker, Playwright (E2E-Testing), Security Hardening (CSP, XSS-Prevention), Automatisierung
+- **Frontend Engineering:** TypeScript, Astro (Islands Architecture), Web Components (Lit), Vue.js, Tailwind CSS
 
-BERUFSERFAHRUNG
+---
 
-Founder & Principal AI Engineer (R&D)
-realizetogether | Remote | 01/2024 – Heute
-Aufbau und Betrieb eines unabhängigen R&D-Labors zur Entwicklung produktionsreifer KI-Architekturen im Enterprise-Kontext.
+## BERUFSERFAHRUNG
 
-AI-Backend & Orchestrierung: Entwicklung asynchroner Backend-Systeme (FastAPI) für latenzarme LLM-Aufrufe. Architektur von Agentic-Workflows und "Lean-RAG"-Systemen mit LangChain/LangGraph.
+**AI Solutions Architect (Independent R&D)**
+_Realize Together (R&D Project) | Remote | 01/2025 – Heute_
+Eigenverantwortliche Konzeption und Entwicklung einer produktionsnahen Enterprise-Architektur zur Evaluierung modernster KI-Integrationen. Fokus auf die sichere, deterministische Anbindung von LLMs an klassische Backend-Systeme.
 
-Datenintegrität & Compliance: Sicherstellung deterministischer KI-Antworten durch Structured Outputs und automatisierte Self-Correction-Loops (Pydantic v2).
+- **LLM-Orchestrierung & Agentic Workflows:** Architektur robuster, asynchroner Backend-Systeme (Python, FastAPI) für latenzkritische LLM-Aufrufe. Entwicklung ressourceneffizienter (Lean) RAG-Pipelines und autonomer Agenten mittels LangChain/LangGraph.
+- **AI-Governance & Datenintegrität:** Implementierung automatisierter Self-Correction Loops und erzwungener strukturierter Ausgaben (Pydantic) zur Vermeidung von Halluzinationen und Gewährleistung deterministischer API-Antworten.
+- **Multimodale Verarbeitung:** Integration von Vision-APIs und kontextbasiertem Sentiment-Routing zur dynamischen Steuerung komplexer Workflows.
+- **Performance UI/UX:** Umsetzung latenzfreier, KI-gestützter Frontends auf Basis von Astro (Islands Architecture) und Tailwind CSS für eine optimierte Time-to-Interactive.
 
-Multimodale KI: Integration von Vision-APIs und Sentiment-Routing für kontextbezogene, dynamische Workflows.
+**Senior Software Engineer (Remote)**
+_Ceyoniq Technology GmbH, Bielefeld | 10/2022 – Heute_
+Architektonische Verantwortung für skalierbare Enterprise-Plattformen. Fokus auf System-Design, Performance-Optimierung und die Etablierung robuster Engineering-Standards in komplexen, verteilten Umgebungen.
 
-Frontend-Architecture: Entwicklung latenzfreier, KI-gestützter UIs mittels Astro und Tailwind CSS.
+- **API-Design & Data Readiness:** Architektur asynchroner, hochperformanter REST-Schnittstellen (Node.js/Express). Starker Fokus auf Datenfluss-Optimierung und Latenzminimierung zur Schaffung einer belastbaren architektonischen Basis für datengetriebene und zukünftig KI-gestützte Enterprise-Workflows.
+- **Systemarchitektur & Skalierung:** Konzeption modularer Architekturen mit TypeScript, Vue und Web Components (Lit). Technische Leitung einer zentralen UI-Komponentenbibliothek (Storybook) für über 20 Entwicklerteams.
+- **Deterministische Qualitätssicherung:** Aufbau geschäftskritischer CI/CD-Pipelines (GitLab) und Implementierung ausfallsicherer End-to-End-Testarchitekturen (Playwright, > 90 % Abdeckung).
+- **Technical Leadership & Tech-Scouting:** Übernahme von Architektur-Reviews und Mentoring im agilen Umfeld. Proaktive Evaluierung moderner Architektur-Paradigmen (inkl. Integrationspotenzialen von GenAI-Diensten in bestehende Legacy-Systeme).
 
-Senior Software Engineer (Frontend Architecture)
-Ceyoniq GmbH, Bielefeld | 10/2022 – Heute
-Architektonische Verantwortung für skalierbare Enterprise-Plattformen. Fokus auf System-Design, Performance-Optimierung und Engineering-Standards in verteilten Umgebungen.
-
-Systemarchitektur: Konzeption und Entwicklung modularer Enterprise-Architekturen mit TypeScript, Vue und Web Components (Lit).
-
-Skalierung & Governance: Architektur und technische Leitung einer zentralen UI-Komponentenbibliothek (Storybook) für über 20 Entwicklerteams.
-
-Client-Server-Kommunikation: API-Design und Anbindung von REST-Schnittstellen (Node.js/Express) mit starkem Fokus auf asynchrone Datenfluss-Optimierung.
-
-Deterministische Qualitätssicherung: Aufbau geschäftskritischer CI/CD-Pipelines (GitLab) und Implementierung ausfallsicherer End-to-End-Testarchitekturen (Playwright, > 90 % Abdeckung).
-
-Technical Leadership & Agile: Teilprojektleitung, Architektur-Reviews, Mentoring (Scrum) und Performance/Security-Audits (CSP, XSS-Prevention).
-
-Senior Software Engineer / Technical Consultant (Freelance)
-Fil & Muz, Remote | 12/2020 – 09/2022
+**Senior Software Engineer / Technical Consultant**
+_Fil & Muz | Remote | 12/2020 – 09/2022_
 Verantwortlich für Architekturdesign und End-to-End-Entwicklung hochperformanter Web-Applikationen.
 
-Systemarchitektur: Eigenständige technische Projektleitung von der Anforderungsanalyse bis zum produktiven Deployment.
+- Eigenständige technische Projektleitung von der Anforderungsanalyse (Requirements Engineering) bis zum produktiven Deployment.
+- Tiefgreifende Performance-Optimierung (Rendering-Pfade, Asset-Delivery), wodurch Ladezeiten kritischer Anwendungen um bis zu 40 % reduziert wurden.
+- Strategisches Consulting internationaler KMUs hinsichtlich skalierbarer, nachhaltiger Webarchitekturen.
 
-Performance Engineering: Tiefgreifende Optimierung der Rendering-Pfade und Asset-Delivery, Reduzierung der Ladezeiten um bis zu 40 %.
-
-Consulting: Strategische Beratung internationaler Agenturen und KMUs hinsichtlich skalierbarer, nachhaltiger Architekturen.
-
-Software Engineer (Frontend & Process Automation)
-Smoox GmbH, Düsseldorf | 05/2019 – 11/2020
+**Software Engineer (Frontend & Process Automation)**
+_Smoox GmbH, Düsseldorf | 05/2019 – 11/2020_
 Technische Transformation veralteter Entwicklungsabläufe und Architekturverantwortung für performante digitale Kampagnen.
 
-Prozess-Transformation: Eigenverantwortliche Modernisierung durch Etablierung agiler Workflows (Kanban) und drastische Erhöhung der Liefergeschwindigkeit.
+- Prozess-Transformation durch Etablierung agiler Workflows (Kanban) und drastische Erhöhung der Liefergeschwindigkeit.
+- Architektur und Implementierung automatisierter Build- und Deployment-Pipelines (GitLab-CI). Verkürzung der Release-Zyklen von Tagen auf Stunden.
 
-Systemarchitektur: Aufbau einer streng wiederverwendbaren Modularchitektur für flexible Layout-Varianten mit TypeScript/JavaScript (ES6+).
-
-DevOps & Automatisierung: Architektur und Implementierung automatisierter Build- und Deployment-Pipelines (GitLab-CI). Verkürzung der Release-Zyklen von Tagen auf Stunden.
-
-Senior IT Consultant & Enterprise Architect
-ÇIĞIŞ Software Systems Ltd., Istanbul | 10/2014 – 12/2018
+**Senior IT Consultant & Enterprise Architect**
+_ÇIĞIŞ Software Systems Ltd., Istanbul | 10/2014 – 12/2018_
 Technische Leitung komplexer Enterprise-Projekte und Steuerung internationaler Teams.
 
-Enterprise-Systemdesign: Entwurf und Implementierung mehrschichtiger, verteilter Architekturen (Backend/Frontend) mit Java, C# und SQL.
+- Entwurf und Implementierung mehrschichtiger, verteilter Architekturen (Backend/Frontend) mit Java, C# und SQL.
+- Steuerung internationaler Offshore-Teams (bis zu 12 Personen) und Einführung agiler Entwicklungsprozesse (Scrum, Kanban).
 
-Technical Leadership: Steuerung internationaler Offshore-Teams (bis zu 12 Personen) und Einführung agiler Entwicklungsprozesse (Scrum, Kanban).
+**Backend Software Engineer (C# / .NET)**
+_Invitec GmbH & Co. KG, Duisburg | 06/2009 – 08/2014_
+Weiterentwicklung und Portierung geschäftskritischer Kernsysteme im C#/.NET-Ökosystem.
 
-Projektmanagement: Koordination kritischer internationaler Rollouts, Risikomanagement und Requirements-Engineering mit Stakeholdern.
+- Code-Refactoring und Optimierung komplexer SQL-Datenbankabfragen, wodurch die Laufzeit von Systemberichten um 30 % reduziert wurde.
+- Entwicklung robuster, datei- und webbasierter Schnittstellen für den automatisierten Datenaustausch mit Fremdsystemen.
 
-Backend Software Engineer (C# / .NET)
-Invitec GmbH & Co. KG, Duisburg | 06/2009 – 08/2014
-Weiterentwicklung und Portierung geschäftskritischer Kernsysteme.
+---
 
-Data & Performance Engineering: Code-Refactoring und Optimierung komplexer SQL-Datenbankabfragen (Stored Procedures), Reduzierung der Berichtszeiten um 30%.
+## STUDIUM
 
-API-Design: Entwicklung robuster, datei- und webbasierter Schnittstellen für den automatisierten Datenaustausch mit Fremdsystemen.
+**Diplom-Informatik | Gesamtnote: mit Auszeichnung**
+_Technische Universität Dortmund | 2000 – 2008_
 
-Software Quality: Etablierung von Testautomatisierung, technischer Dokumentation und Fehleranalyse im gesamten SDLC.
+- **Diplomarbeit:** "Konnektionistische Systeme in der natürlichen und künstlichen Intelligenz sowie in den kognitiven Neurowissenschaften – Strukturen, Lernen und Fähigkeiten."
+- **Fokus:** Artificial Intelligence, Neural Networks, Cognitive Neuroscience.
 
-STUDIUM
+---
 
-Diplom-Informatik | Gesamtnote: mit Auszeichnung
-Technische Universität Dortmund | 2000–2008
+## SPRACHEN & ARBEITSWEISE
 
-Diplomarbeit: "Konnektionistische Systeme in natürlichen und künstlichen neuronalen Netzen sowie in den kognitiven Neurowissenschaften – Strukturen, Lernen und Fähigkeiten."
-
-SPRACHEN & SOFT SKILLS
-
-Sprachen: Deutsch, Englisch (B2/C1), Türkisch
-
-Soft Skills: Analytisches Systemdenken, Mentoring & Teamführung, hohes Verantwortungsbewusstsein bei Architektur-Entscheidungen, exzellente Problemlösungsfähigkeiten.
+- **Sprachen:** Deutsch (Muttersprache), Englisch (Fließend im Tech-Kontext), Türkisch (Muttersprache)
+- **Arbeitsweise:** Systemdesign & Architektur, Data Governance & Compliance, Performance & Latenz-Tuning, Analytisches Denken, Lösungsorientierung.
