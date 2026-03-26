@@ -61,7 +61,9 @@ origins = [
     "https://www.sinan.realizetogether.com",
     "https://realizetogether.com",
     "https://www.realizetogether.com",
-    "https://realizetogether-ai.onrender.com", 
+    "https://realizetogether-ai.onrender.com",
+    "https://sinanucar.com",
+    "https://www.sinanucar.com",
 ]
 origin_regex = r"https://.*\.cloudworkstations\.dev|http://localhost:\d+"
 
