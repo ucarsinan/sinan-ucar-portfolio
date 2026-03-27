@@ -82,7 +82,9 @@ const normalize = (path: string) =>
         <button
           id="mobile-menu-btn"
           type="button"
-          class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus:outline-none"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+          class="inline-flex items-center justify-center p-2 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500"
         >
           <span class="sr-only">Open main menu</span>
           <svg
@@ -158,10 +160,12 @@ const normalize = (path: string) =>
       menu?.classList.remove('hidden');
       iconMenu?.classList.add('hidden');
       iconClose?.classList.remove('hidden');
+      btn?.setAttribute('aria-expanded', 'true');
     } else {
       menu?.classList.add('hidden');
       iconMenu?.classList.remove('hidden');
       iconClose?.classList.add('hidden');
+      btn?.setAttribute('aria-expanded', 'false');
     }
   });
 </script>

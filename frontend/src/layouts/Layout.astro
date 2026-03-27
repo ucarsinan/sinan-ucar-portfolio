@@ -10,12 +10,14 @@ interface Props {
 }
 
 const { title = 'Sinan.Uçar - Interactive Resume' } = Astro.props;
+const lang = Astro.currentLocale || 'de';
 ---
 
 <!doctype html>
-<html lang="de" class="scroll-smooth">
+<html lang={lang} class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
+    <meta name="color-scheme" content="dark" />
     <meta name="description" content="Sinan Uçar - Diplom-Informatiker & Solutions Architect" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />

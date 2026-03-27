@@ -53,7 +53,7 @@ const text = lang === 'en' ? t.en : t.de;
   <div class="flex-grow flex flex-col gap-4">
     <div 
       id={`drop-zone-${lang}`}
-      class="relative w-full h-48 border-2 border-dashed border-slate-600 rounded-xl hover:border-blue-500 hover:bg-slate-700/50 transition-all flex flex-col justify-center items-center cursor-pointer group overflow-hidden bg-slate-900/50"
+      class="relative w-full h-48 border-2 border-dashed border-slate-600 rounded-xl hover:border-blue-500 hover:bg-slate-700/50 transition-colors flex flex-col justify-center items-center cursor-pointer group overflow-hidden bg-slate-900/50"
     >
       <input type="file" id={`file-input-${lang}`} accept="image/*" class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
       
@@ -65,7 +65,7 @@ const text = lang === 'en' ? t.en : t.de;
         <p class="text-slate-600 text-xs mt-1">PNG, JPG (max 4MB)</p>
       </div>
 
-      <img id={`image-preview-${lang}`} class="absolute inset-0 w-full h-full object-contain bg-slate-900 hidden z-0 p-2" />
+      <img id={`image-preview-${lang}`} alt="" class="absolute inset-0 w-full h-full object-contain bg-slate-900 hidden z-0 p-2" />
     </div>
 
     <button 
@@ -221,11 +221,13 @@ const text = lang === 'en' ? t.en : t.de;
 
         resultArea.classList.remove('hidden');
       } else {
-        alert("Server Error: " + (data.error || "Unknown error"));
+        feedbackText.textContent = "Server Error: " + (data.error || "Unknown error");
+        resultArea.classList.remove('hidden');
       }
     } catch (e) {
       console.error(e);
-      alert("Error: " + e.message);
+      feedbackText.textContent = "Error: " + e.message;
+      resultArea.classList.remove('hidden');
     } finally {
       btn.disabled = false;
       spinner.classList.add('hidden');

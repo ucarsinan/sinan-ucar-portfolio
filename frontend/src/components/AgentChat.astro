@@ -47,16 +47,18 @@ const text = lang === 'en' ? t.en : t.de;
 
   <div class="flex-grow flex flex-col gap-4">
     <div class="relative">
-      <textarea 
+      <textarea
         id={`agent-input-${lang}`}
+        name="agent-message"
+        aria-label={lang === 'de' ? 'Frage an den Agenten' : 'Ask the agent'}
         placeholder={text.placeholder}
-        class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-200 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all resize-none min-h-[100px]"
+        class="w-full bg-slate-900 border border-slate-700 rounded-lg p-3 text-slate-200 text-sm focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent focus-visible:outline-none resize-none min-h-[100px]"
       ></textarea>
     </div>
 
     <button 
       id={`agent-btn-${lang}`}
-      class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition-all flex justify-center items-center gap-2"
+      class="w-full bg-blue-600 hover:bg-blue-500 text-white font-medium py-2 px-4 rounded-lg transition-colors flex justify-center items-center gap-2"
     >
       <span>{text.btn}</span>
       <svg id={`agent-spinner-${lang}`} class="animate-spin h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -133,7 +135,8 @@ const text = lang === 'en' ? t.en : t.de;
         }
       } catch (e) {
         console.error(e);
-        alert("Error: " + (e as Error).message);
+        replyText.textContent = "Fehler: " + (e as Error).message;
+        resultArea.classList.remove('hidden');
       } finally {
         btn.disabled = false;
         spinner.classList.add('hidden');
@@ -157,6 +160,9 @@ const text = lang === 'en' ? t.en : t.de;
   }
   .animate-fade-in {
     animation: fade-in 0.4s ease-out forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in { animation: none; }
   }
 
   .agent-prose p { margin-bottom: 0.75rem; }
