@@ -115,15 +115,22 @@ PROJECTS = [
 # ==========================================
 # 3. AI MODELS (Resilient Fallback System)
 # ==========================================
-# Resilience: Multi-Model Fallback List
+# Resilience: Separate Fallback Chains für Text vs. Vision
 # Syntax: provider:model_name
-LLM_MODELS = [
-    "google:gemini-flash-latest",
-    "google:gemini-2.0-flash", 
-    "openai:gpt-4o-mini",
+
+# /api/chat, /api/analyze, /api/agent — Groq primär (LPU: 10-20× schneller, sehr stabil)
+LLM_MODELS_TEXT = [
     "groq:llama-3.3-70b-versatile",
-    "google:gemini-pro-latest",
-    "google:gemini-flash-lite-latest"
+    "google:gemini-flash-latest",
+    "openai:gpt-4o-mini",
+    "google:gemini-2.0-flash",
+]
+
+# /api/vision — Groq hat kein Multimodal, Google Gemini bleibt primär
+LLM_MODELS_VISION = [
+    "google:gemini-flash-latest",
+    "google:gemini-2.0-flash",
+    "openai:gpt-4o-mini",
 ]
 
 def _get_llm(model_id: str, timeout: float = 30.0):
@@ -159,8 +166,9 @@ async def invoke_resiliently(prompt_or_messages, input_data=None, is_vision=Fals
     """Tries multiple models in sequence if one fails due to Quota or Timeout."""
     last_error: Exception = Exception("Unknown error")
     timeout = 30.0 if not is_vision else 45.0
-    
-    for model_id in LLM_MODELS:
+    models = LLM_MODELS_VISION if is_vision else LLM_MODELS_TEXT
+
+    for model_id in models:
         try:
             temp_llm = _get_llm(model_id, timeout=timeout)
             if not temp_llm:
