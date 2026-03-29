@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/health",
-      "destination": "https://realizetogether-ai.onrender.com/health"
+      "destination": "https://sinan-ucar-portfolio.onrender.com/health"
     },
     {
       "source": "/api/:path*",
-      "destination": "https://realizetogether-ai.onrender.com/api/:path*"
+      "destination": "https://sinan-ucar-portfolio.onrender.com/api/:path*"
     }
   ]
 }

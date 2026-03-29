@@ -57,13 +57,9 @@ async def add_security_headers(request: Request, call_next):
 origins = [
     "http://localhost:4321",
     "http://localhost:3000",
-    "https://sinan.realizetogether.com",
-    "https://www.sinan.realizetogether.com",
-    "https://realizetogether.com",
-    "https://www.realizetogether.com",
-    "https://realizetogether-ai.onrender.com",
     "https://sinanucar.com",
     "https://www.sinanucar.com",
+    "https://sinan-ucar-portfolio.onrender.com",
 ]
 origin_regex = r"https://.*\.cloudworkstations\.dev|http://localhost:\d+"
 
@@ -107,7 +103,7 @@ load_cv()
 # 2.1 PROJECTS DATA (Mock)
 # ==========================================
 PROJECTS = [
-    {"name": "RealizeTogether AI", "tech": "Astro, FastAPI, Gemini", "desc": "Ein KI-Showcase-Portfolio."},
+    {"name": "Sinan Ucar Portfolio", "tech": "Astro, FastAPI, Gemini", "desc": "KI-Portfolio mit Multi-Provider Fallback."},
     {"name": "Lean RAG Bot", "tech": "Python, LangChain", "desc": "Effizienter Bot mit In-Context Learning."},
     {"name": "UX Analyzer", "tech": "Vision LLM, Tailwind", "desc": "Analysiert Screenshots auf Design-Qualität."},
 ]

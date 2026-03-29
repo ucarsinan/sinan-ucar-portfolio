@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://sinan.realizetogether.com',
+  site: 'https://sinanucar.com',
   integrations: [
     sitemap({
       filter: (page) =>

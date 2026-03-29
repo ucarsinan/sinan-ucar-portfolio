@@ -10,4 +10,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Ping backend
-        run: curl -s https://realizetogether-ai.onrender.com/health || true
+        run: curl -s https://sinan-ucar-portfolio.onrender.com/health || true

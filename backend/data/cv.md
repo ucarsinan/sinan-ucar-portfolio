@@ -2,7 +2,7 @@
 
 **Diplom-Informatiker | Senior AI Solutions Architect | Enterprise Architecture**
 📍 Deutschland (Remote) | ✉️ info@sinanucar.com
-🔗 LinkedIn: <https://linkedin.com/in/infosinanucar> | 🌐 Portfolio: <https://sinan.realizetogether.com/> | Website: <https://www.sinanucar.com/>
+🔗 LinkedIn: <https://linkedin.com/in/infosinanucar> | 🌐 Portfolio: <https://sinanucar.com/> | Website: <https://www.sinanucar.com/>
 
 ---
 

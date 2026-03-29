@@ -1,7 +1,7 @@
-# realizetogether-ai – CLAUDE.md
+# sinan-ucar-portfolio – CLAUDE.md
 
 ## Was ist das?
-Sinans persönliches KI-Portfolio-Backend. Läuft unter `sinan.realizetogether.com`.
+Sinans persönliches KI-Portfolio-Backend. Läuft unter `sinanucar.com`.
 FastAPI-Backend (4 Endpunkte) + Astro-Frontend (Showcase) — kein Produktivcode für die RealizeTogether-Plattform.
 
 ---
@@ -12,7 +12,7 @@ FastAPI-Backend (4 Endpunkte) + Astro-Frontend (Showcase) — kein Produktivcode
 Backend:    FastAPI + Python 3.12 · LangChain (langchain-core, -google-genai, -openai, -groq, -anthropic)
 Validation: Pydantic BaseModel + with_structured_output()
 Frontend:   Astro.js (frontend/ — separates Deployment)
-Deploy:     Backend → Render (realizetogether-ai.onrender.com)
+Deploy:     Backend → Render (sinan-ucar-portfolio.onrender.com)
 Dev-Env:    Google Firebase Studio (.idx/dev.nix)
 Monitoring: Sentry (SENTRY_DSN via .env)
 ```

@@ -6,4 +6,4 @@ Disallow: /impressum
 Disallow: /en/privacy
 Disallow: /en/imprint
 
-Sitemap: https://sinan.realizetogether.com/sitemap-index.xml
+Sitemap: https://sinanucar.com/sitemap-index.xml

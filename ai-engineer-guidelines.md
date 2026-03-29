@@ -1,6 +1,6 @@
 # 🧠 AI Engineering Guidelines & Patterns
 
-Dieses Dokument fasst die im `realizetogether-ai` Projekt angewandten Best Practices und Architektur-Entscheidungen für die Entwicklung mit LLMs und generativer KI zusammen. Es dient als Referenz für KI-Agenten und Engineers.
+Dieses Dokument fasst die im `sinan-ucar-portfolio` Projekt angewandten Best Practices und Architektur-Entscheidungen für die Entwicklung mit LLMs und generativer KI zusammen. Es dient als Referenz für KI-Agenten und Engineers.
 
 ---
 
