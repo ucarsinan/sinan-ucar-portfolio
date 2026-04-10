@@ -503,6 +503,14 @@ class AnalyzeRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=2000)
     language: Literal["de", "en"] = "de"
 
+class ChatAnswer(BaseModel):
+    reply: str = Field(
+        description=(
+            "Answer about Sinan Ucar based strictly on the provided CV. "
+            "Never claim to be Sinan. Never invent facts not present in the CV."
+        )
+    )
+
 class SentimentAnalysis(BaseModel):
     score: float = Field(description="Score -1.0 to 1.0")
     # Wir behalten die internen IDs (freude, wut...), mappen aber die Ausgabe im Frontend
@@ -526,21 +534,35 @@ async def chat_endpoint(request: ChatRequest):
     print(f"📩 Chat: {request.message} | Lang: {request.language}")
     
     if request.language == "en":
-        template = """You are Sinan's AI assistant. Use this resume: {cv_text}. 
-        Answer in ENGLISH. Short, professional. 
-        User Question: {user_message}"""
+        template = (
+            "You are an AI portfolio assistant for Sinan Ucar's website. "
+            "IMPORTANT: You are NOT Sinan Ucar. You are an AI assistant that knows his resume. "
+            "If asked who you are, say: 'I am Sinan's AI assistant. Ask me about his experience, skills, or projects.' "
+            "Answer ONLY based on the resume below. NEVER invent facts, dates, or details not present in the resume. "
+            "If information is not in the resume, say so explicitly.\n\n"
+            "Resume:\n{cv_text}\n\n"
+            "Question: {user_message}\n\n"
+            "Answer (English, concise, professional):"
+        )
     else:
-        template = """Du bist Sinans AI Assistent. Nutze diesen CV: {cv_text}. 
-        Antworte auf DEUTSCH. Kurz, professionell. 
-        Frage: {user_message}"""
+        template = (
+            "Du bist ein KI-Portfolio-Assistent auf Sinans Website. "
+            "WICHTIG: Du BIST NICHT Sinan Ucar. Du bist ein KI-System, das seinen Lebenslauf kennt. "
+            "Wenn gefragt 'Wer bist du?', antworte: 'Ich bin Sinans KI-Assistent. Frag mich nach seiner Erfahrung, seinen Skills oder Projekten.' "
+            "Antworte AUSSCHLIESSLICH auf Basis des folgenden Lebenslaufs. Erfinde NIEMALS Fakten, Daten oder Details, die nicht im Lebenslauf stehen. "
+            "Falls eine Information nicht im Lebenslauf enthalten ist, sage das explizit.\n\n"
+            "Lebenslauf:\n{cv_text}\n\n"
+            "Frage: {user_message}\n\n"
+            "Antwort (Deutsch, kurz, professionell):"
+        )
 
     chain = ChatPromptTemplate.from_template(template)
     try:
         start_time = datetime.now()
-        res = await invoke_resiliently(chain, {"cv_text": str(CV_CONTEXT), "user_message": request.message})
+        res = await invoke_resiliently(chain, {"cv_text": str(CV_CONTEXT), "user_message": request.message}, structured_class=ChatAnswer)
         duration = (datetime.now() - start_time).total_seconds()
         print(f"✅ AI Response in {duration:.2f}s")
-        reply = getattr(res, 'content', str(res))
+        reply = res.reply if isinstance(res, ChatAnswer) else getattr(res, 'content', str(res))
         return {"reply": reply}
     except Exception as e:
         if "429" in str(e):
@@ -632,16 +654,19 @@ async def agent_endpoint(request: AgentRequest):
         start_time = datetime.now()
 
         system_content = (
-            f"Du bist Sinans professioneller Portfolio-Assistent. "
+            "Du bist Sinans KI-Portfolio-Assistent auf sinanucar.com. "
+            "IDENTITÄT: Du BIST NICHT Sinan Ucar. Du bist ein KI-System, das Informationen ÜBER Sinan bereitstellt. "
+            "Wenn gefragt 'Wer bist du?' oder 'Bist du Sinan?', antworte IMMER: "
+            "'Ich bin Sinans KI-Assistent. Ich beantworte Fragen über seine Berufserfahrung, Skills und Projekte.' "
+            "HALLUZINATIONS-SCHUTZ: Erfinde NIEMALS Fakten, Daten, Gehälter, Kontaktdaten oder Details. "
+            "Nutze ausschließlich die Tool-Ergebnisse und die unten genannten Kernfakten. "
             f"Antworte in der Sprache: {request.language}. "
-            "WICHTIG: Antworte IMMER direkt und natürlich wie ein Mensch. "
-            "Erwähne NIEMALS Tools, Funktionen, Code oder interne Prozesse – der Nutzer sieht nur deine Antwort. "
-            "Kernfakten (immer verfügbar, niemals erfinden): "
+            "Kernfakten (fest, unveränderlich): "
             "Name: Sinan Ucar | "
             "Aktuelle Stelle: Senior Software Engineer @ Ceyoniq Technology GmbH (seit 10/2022) + eigenständige KI-Projekte | "
             "Abschluss: Diplom-Informatik, TU Dortmund | "
             "Erfahrung: 15+ Jahre Software Engineering, KI-Fokus seit 2024. "
-            "Nutze Tools still im Hintergrund für detaillierte Informationen: "
+            "Nutze Tools still im Hintergrund — erwähne sie NIEMALS in der Antwort: "
             "- get_cv_summary() → vollständige Skills, Tech-Stack, Ausbildung, Berufserfahrung "
             "- get_project_details(project_name) → Projekte: Realize Together, Logopädie Report Agent, Portfolio Backend "
             "- get_availability() → Verfügbarkeit, bevorzugte Rollen, Wechselbereitschaft, Kontakt "
